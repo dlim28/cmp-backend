@@ -4,7 +4,7 @@ const mortgage = require('../models/mortgage');
 
 //Get all mortgages
 router.get('/', (req, res) => {
-       res.send("Welcome to the leads homepage");
+    res.send("Welcome to the leads homepage");
 })
 
 router.get('/all',(req, res) => {
@@ -352,7 +352,9 @@ function setHistory(historyArray, reqBody = null, originalObj = null) {
 
         let changeIndex = 0;
         let stringDate = `${timestampDay}/${timestampMonth}/${timestampYear}`
-
+        if ('status' in reqBody) {
+            
+        }
         for (const key in reqBody) {
             if (reqBody.hasOwnProperty(key)) {
                 changeIndex++;
