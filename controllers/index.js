@@ -11,6 +11,7 @@ router.use('/leads', require('./leads.js'));
 router.use('/lodgements', require('./lodgements.js'))
 router.use('/approvals', require('./approvals.js'))
 router.use('/settlements', require('./settlements.js'))
+router.use('/crm', require('./crm'))
 
 // //Get navbar dashboard data
 router.use('/navbar', require('./navbar.js'))
