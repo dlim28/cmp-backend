@@ -181,8 +181,8 @@ function addTotalReferrers(monthArray) {
                 }
                 else {
                     let monthStr = `Month ${month}`
-                    console.log(`ReferrerID:${referrerID}`, monthArray[month][referrerID].length)
-                    totalReferrer[`ReferrerID:${referrerID}`] = monthArray[month][referrerID].length
+                    // console.log(`ReferrerID:${referrerID}`, monthArray[month][referrerID].length)
+                    totalReferrer[`referrerID ${referrerID}`] = monthArray[month][referrerID].length
                     returnObj[monthStr] = totalReferrer
                 }
             }

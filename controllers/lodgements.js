@@ -17,8 +17,21 @@ router.get('/', (req,res) => {
     ).sort(
         {"id": 1}
     )
+    .lean()
     .then((resp) => {
-        res.send(resp);
+        
+        for (let index = 0; index < resp.length; index++) {
+            const dateStr = resp[index].dateOfLead;
+            const dateStrMod = dateStr.split("/")
+            const dateOfLeadObj = new Date(`${dateStrMod[2]}-${dateStrMod[1]}-${dateStrMod[0]}`);
+            const currentDate = new Date();
+
+            const timeDiff = Math.abs(currentDate.getTime() - dateOfLeadObj.getTime())
+            const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24))
+            resp[index].WIP = diffDays
+        }
+
+        res.send(resp)
     })
     .catch(err => {
         res.send(err)
