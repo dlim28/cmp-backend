@@ -1,8 +1,6 @@
 const express = require('express')
-const axios = require('axios');
 const mongoose = require('mongoose')
 const cors = require('cors')
-const mortgage = require('./models/mortgage');
 require('dotenv').config();
 
 //Start Express
