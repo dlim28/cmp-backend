@@ -20,7 +20,6 @@ router.get('/select/:id', (req, res) => {
     .then((resp) => {
         res.send(resp);
     })
-    console.log("Finished id route")
 })
 
 router.get('/overview', (req, res) => {
