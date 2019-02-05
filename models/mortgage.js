@@ -4,7 +4,7 @@ const mortgageSchema = new mongoose.Schema({
     id: String,
     customerName: String,
     status: String,
-    statusDate: String,
+    statusDate: Date,
     referrer: String,
     source: String,
     category: String,

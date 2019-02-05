@@ -5,6 +5,8 @@ const mortgage = require('../models/mortgage');
 router.get('/', (req, res) => {
     const currentDate = new Date()
     const currentYear = currentDate.getFullYear();
+    let from = `${currentYear - 1}-07-01`
+    let until = `${currentYear}-06-30`
 
     mortgage.find(
     // search date of lodgements between 1st January last year and 31st December this year
@@ -12,7 +14,7 @@ router.get('/', (req, res) => {
             $and:
             [
                 {"status":"approval"},
-                {"dateOfLead": {"$gte": `01/07/${currentYear - 1}`, "$lte": `30/06/${currentYear}`}}
+                {"dateOfLead": {"$gte": from, "$lte": until}}
             ]
         }
     )
