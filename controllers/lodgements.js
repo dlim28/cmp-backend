@@ -21,7 +21,7 @@ router.get('/', (req,res) => {
     .then((resp) => {
         
         for (let index = 0; index < resp.length; index++) {
-            const dateStr = resp[index].dateOfLead;
+            const dateStr = resp[index].statusDate;
             const dateStrMod = dateStr.split("/")
             const dateOfLeadObj = new Date(`${dateStrMod[2]}-${dateStrMod[1]}-${dateStrMod[0]}`);
             const currentDate = new Date();

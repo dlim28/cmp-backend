@@ -5,23 +5,23 @@ POST http://localhost:5000/leads/new-lead
 Content-Type: application/json
 
 {
-		"status": "SETTLEMENTS",
-		"statusDate": "2019-11-26",
-		"referrer": "1",
-		"source": "2",
-		"category": "1",
-		"customerName": "Staph",
+		"status": "lead",
+		"statusDate": "1/01/2018",
+		"referrer": "LP Staff",
+		"source": "Email",
+		"category": "Finance",
+		"customerName": "Phil McGee2",
 		"amount": "4202133",
-		"dateOfLead": "2019-11-01",
-		"lender": "1",
+		"dateOfLead": "1/01/2018",
+		"lender": "Steve",
 		"employee": "Katherine"
 }
 ###
-GET http://localhost:5000/leads/select/32
+GET http://localhost:5000/leads/select/52
 ###
-PATCH http://localhost:5000/leads/32/edit
+PATCH http://localhost:5000/leads/52/edit
 Content-Type: application/json
 
 {
-	"referrer":"Other"
+	"status":"approval"
 }

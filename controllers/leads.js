@@ -307,13 +307,30 @@ router.post('/new-lead', (req, res) => {
 
 router.patch('/:id/edit', (req, res) => {
     const { id } = req.params
-    const changes = req.body;
+    let changes = req.body;
     console.log(changes)
     
     for (const key in changes) {
         if (changes.hasOwnProperty(key)) {
             if (key === "status") {
-                
+                const statusDate = new Date();
+                const currentDay = statusDate.getDate();
+                const currentMonth = statusDate.getMonth() + 1;
+                const currentYear = statusDate.getFullYear();
+                changes.statusDate = `${currentDay}/0${currentMonth}/${currentYear}`
+                console.log(changes)
+
+                mortgage.findOneAndUpdate({id}, changes)
+                .then(doc => {
+                    doc.history.push(setHistory(doc.history,changes,doc))
+                    doc.save()
+                .then(resp => {
+                    res.send(resp)
+                    })
+                })
+                .catch(err => {
+                    return err;
+                })
             }
             else
             {
@@ -322,7 +339,7 @@ router.patch('/:id/edit', (req, res) => {
                     doc.history.push(setHistory(doc.history,changes,doc))
                     doc.save()
                 .then(resp => {
-                    res.send("Successful")
+                    res.send(resp)
                     })
                 })
                 .catch(err => {
@@ -334,14 +351,12 @@ router.patch('/:id/edit', (req, res) => {
 })
 
 function setHistory(historyArray, reqBody = null, originalObj = null) {
-
     let historyChanges = {};
 
     const timestamp = new Date();
     const timestampDay = timestamp.getDate();
-    const timestampMonth = timestamp.getMonth();
+    const timestampMonth = timestamp.getMonth() + 1;
     const timestampYear = timestamp.getFullYear();
-
     
 
     if(historyArray.length <= 0) {
@@ -352,13 +367,12 @@ function setHistory(historyArray, reqBody = null, originalObj = null) {
 
         let changeIndex = 0;
         let stringDate = `${timestampDay}/${timestampMonth}/${timestampYear}`
-        if ('status' in reqBody) {
-            
-        }
+       
         for (const key in reqBody) {
             if (reqBody.hasOwnProperty(key)) {
                 changeIndex++;
                 updateMsg = `Change: ${changeIndex}| ` + stringDate
+                console.log(originalObj.statusDate)
                 historyChanges[updateMsg] = `${key} has been changed from ${originalObj[key]} to ${reqBody[key]}`
             }
         }
