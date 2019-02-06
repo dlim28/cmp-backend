@@ -1,4 +1,16 @@
-GET http://localhost:5000/navbar/0
+GET http://localhost:5000/protected/navbar
+Content-Type: application/json
+token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imphc21pbmUud29pc2NodWtAc2FmZWNvZGUuY29tLmF1IiwiaWF0IjoxNTQ5NDMyMzI5LCJleHAiOjE1NDk0NTAzMjl9.MiVWMqf0a9Rc9JqXju0tkEwzokITkhSblBXTHp5x92U"
+
+###
+
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+   "username": "jasmine.woischuk@safecode.com.au",
+   "password": "Welcome1"
+}
 ###
 
 POST http://localhost:5000/leads/new-lead
