@@ -206,12 +206,9 @@ router.get('/referrer-leaderboard', (req, res) => {
             }
         };
 
-        returnArr.push(arrayByMonthPrevYear)
-        returnArr.push(arrayByMonthCurrentYear)
-        data.previousYear = addTotalReferrers(arrayByMonthPrevYear)
         data.currentYear = addTotalReferrers(arrayByMonthCurrentYear)
+        data.previousYear = addTotalReferrers(arrayByMonthPrevYear)
         // data = addTotalReferrers(arrayByMonth)
-        console.log(data)
         res.send(data)
     })
     .catch(err => {
@@ -222,24 +219,25 @@ router.get('/referrer-leaderboard', (req, res) => {
 function addTotalReferrers(monthArray) {
 
     let returnObj = {}
-    
-    
-    for (let month = 0;  month < monthArray.length; month++) {
-        let totalReferrer = {}
-        if (monthArray[month] === undefined) {
-            console.log("Month is Undefined")
-        } else {
-            for (let referrerID = 0; referrerID < monthArray[month].length; referrerID++) {
-                let monthStr = `Month ${month}`
-                totalReferrer[`referrerid${referrerID}`] = monthArray[month][referrerID].length
-                // totalCounter = monthArray[month][referrerID].length
-                console.log(monthStr)
-                console.log(totalReferrer)
-                returnObj[monthStr] = totalReferrer 
-            }  
+
+    for (let month = monthArray.length;  month >= 0; month--) {
+        for (let index = 0; index < monthArray.length; index++) {
+            let totalReferrer = {}
+            if (monthArray[month] === undefined) {
+                //Do nothing
+            } else {
+                // let totalCounter = 0
+                for (let referrerID = 0; referrerID < monthArray[month].length; referrerID++) {
+                    let monthStr = `Month ${month}`
+                    totalReferrer[`referrerid${referrerID}`] = monthArray[month][referrerID].length
+                    // totalCounter += monthArray[month][referrerID].length
+                    returnObj[monthStr] = totalReferrer 
+                }  
+                // console.log(`Total for Month ${month} is ${totalCounter}`)
+                // returnObj.total = totalCounter
+            }
         }
     }
-    // console.log(returnObj)
     return returnObj
 }
 
@@ -346,11 +344,9 @@ router.post('/new-lead', (req, res) => {
 
         data.save()
         .then(resp => {
-            console.log(resp)
             res.send("Item saved to database")
         })
         .catch(err => {
-            console.log(err)
             res.status(400).send("unable to save to database");
         })
     })    
@@ -359,7 +355,6 @@ router.post('/new-lead', (req, res) => {
 router.patch('/:id/edit', (req, res) => {
     const { id } = req.params
     let changes = req.body;
-    console.log(changes)
     
     for (const key in changes) {
         if (changes.hasOwnProperty(key)) {
@@ -369,7 +364,6 @@ router.patch('/:id/edit', (req, res) => {
                 const currentMonth = statusDate.getMonth() + 1;
                 const currentYear = statusDate.getFullYear();
                 changes.statusDate = `${currentDay}/0${currentMonth}/${currentYear}`
-                console.log(changes)
 
                 mortgage.findOneAndUpdate({id}, changes)
                 .then(doc => {
@@ -423,7 +417,6 @@ function setHistory(historyArray, reqBody = null, originalObj = null) {
             if (reqBody.hasOwnProperty(key)) {
                 changeIndex++;
                 updateMsg = `Change: ${changeIndex}| ` + stringDate
-                console.log(originalObj.statusDate)
                 historyChanges[updateMsg] = `${key} has been changed from ${originalObj[key]} to ${reqBody[key]}`
             }
         }
