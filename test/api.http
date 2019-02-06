@@ -5,19 +5,19 @@ POST http://localhost:5000/leads/new-lead
 Content-Type: application/json
 
 {
-		"status": "lead",
-		"statusDate": "1/01/2018",
-		"referrer": "LP Staff",
-		"source": "Email",
-		"category": "Finance",
-		"customerName": "Phil McGee2",
-		"amount": "4202133",
-		"dateOfLead": "1/01/2018",
-		"lender": "Steve",
-		"employee": "Katherine"
-}
+		"status": "lead lost",
+		"statusDate": "2018-11-13",
+		"referrer": "BDM Staff",
+		"source": "App",
+		"category": "Re-finance",
+		"customerName": "Marguerite Parsons",
+		"amount": "34264",
+		"dateOfLead": "2018-11-03",
+		"lender": "Virgin Money",
+		"employee": "Johann"
+	}
 ###
-GET http://localhost:5000/leads/select/52
+GET http://localhost:5000/leads/select/1
 ###
 PATCH http://localhost:5000/leads/52/edit
 Content-Type: application/json

@@ -124,8 +124,8 @@ async function getTotalMortgages(status) {
                 $and:
                 [
                     {
-                        dateOfLead:{$gte: `01/${currentMonth + 1}/${currentYear}`,
-                        $lte: `${currentDay}/${currentMonth + 1}/${currentYear}`},
+                        dateOfLead:{$gte: new Date(`${currentYear}-${currentMonth + 1}-01`),
+                        $lte: new Date(`${currentYear}-${currentMonth + 1}-${currentDay}`)},
                         status:status
                     }
                 ]
@@ -158,15 +158,14 @@ async function getTotalAmount(recordsQueriedObject) {
 async function getTotalMortgagesYTD(status) {
     //30th June EOFY
     const currentDate = new Date();
-    // const currentMonth = currentDate.getMonth(); //Month starts at 0 - January
     const currentYear = currentDate.getFullYear(); 
 
     let result = await mortgage.find(
             { 
                 $and:
                 [
-                    {"dateOfLead":{"$gte": `01-07-${currentYear - 1}`, "$lte":`30-06-${currentYear}`}},
-                    {"status":status}
+                    {dateOfLead:{$gte: new Date(`${currentYear - 1}-07-01`), $lte:`${currentYear}-06-30`}},
+                    {status:status}
                 ]
             }
         )

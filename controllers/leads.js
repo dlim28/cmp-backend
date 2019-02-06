@@ -32,12 +32,12 @@ router.get('/overview', (req, res) => {
         {
             $and: 
             [
-                {"status":"lead"},
-                {"dateOfLead": {"$gte": `01/07/${currentYear - 1}`, "$lte": `30/06/${currentYear}`}}
+                {status:"lead"},
+                {dateOfLead: {$gte: new Date(`${currentYear - 1}-07-01`), $lte: new Date(`${currentYear}-06-30`)}}
             ]
         }
     ).sort(
-        { "dateOfLead": 1}
+        {dateOfLead: 1}
     )
     .then((resp) => {
         res.send(resp);
@@ -50,16 +50,16 @@ router.get('/employee-leaderboard', (req, res) => {
     const currentYear = currentDate.getFullYear();
 
     mortgage.find(
-        // search date of lead between 1st January last year and 31st December this year
         {
             $and: 
             [
-                {"status":"lead"},
-                {"dateOfLead": {"$gte": `01/07/${currentYear - 1}`, "$lte": `30/06/${currentYear}`}}
+                {status:"lead"},
+                {dateOfLead: {$gte: new Date(`${currentYear - 1}-07-01`), $lte: new Date(`${currentYear}-06-30`)}}
+
             ]
         }
     ).sort(
-        { "employee": 1 , "dateOfLead": 1}
+        { employee: 1 , dateOfLead: 1}
     )
     .then((resp) => {
         res.send(resp);
@@ -80,12 +80,12 @@ router.get('/referrer-leaderboard', (req, res) => {
             $and:
             [
                 {status:"lead"},
-                {"dateOfLead":{"$gte": `01/07/${currentYear - 1}`, "$lte": `30/06/${currentYear}`}}
+                {dateOfLead: {$gte: new Date(`${currentYear - 1}-07-01`), $lte: new Date(`${currentYear}-06-30`)}}
             ]
         }
     )
     .sort(
-        {"dateOfLead": 1}
+        {dateOfLead: 1}
     )
     .lean()
     .then(resp => {
@@ -96,97 +96,89 @@ router.get('/referrer-leaderboard', (req, res) => {
         //sets the month in the response object
         for (let index = 0; index < resp.length; index++) {
 
-            const dateStr = resp[index].dateOfLead;
-            const dateStrMod = dateStr.split("/")
-            const currentDate = new Date(`${dateStrMod[2]}-${dateStrMod[1]}-${dateStrMod[0]}`)
-            const currentMonth = currentDate.getMonth();
+            const dateObj = resp[index].dateOfLead;
 
-            resp[index].month = currentMonth
-
-            if(resp[index].month === 0){
+            if(dateObj.getMonth() === 0){
                 arrayByMonth = sortReferrer(arrayByMonth,resp[index])
             }
 
-            else if(resp[index].month === 1){
+            else if(dateObj.getMonth() === 1){
                 arrayByMonth = sortReferrer(arrayByMonth,resp[index])
             }
 
-            else if(resp[index].month === 2){
+            else if(dateObj.getMonth() === 2){
                 arrayByMonth = sortReferrer(arrayByMonth,resp[index])
             }
 
-            else if(resp[index].month === 3){
+            else if(dateObj.getMonth() === 3){
                 arrayByMonth = sortReferrer(arrayByMonth,resp[index])
             }
             
-            else if(resp[index].month === 4){
+            else if(dateObj.getMonth() === 4){
                 arrayByMonth = sortReferrer(arrayByMonth,resp[index])
             }
             
-            else if(resp[index].month === 5){
+            else if(dateObj.getMonth() === 5){
                 arrayByMonth = sortReferrer(arrayByMonth,resp[index])
             }
             
-            else if(resp[index].month === 6){
+            else if(dateObj.getMonth() === 6){
                 arrayByMonth = sortReferrer(arrayByMonth,resp[index])
             }
             
-            else if(resp[index].month === 7){
+            else if(dateObj.getMonth() === 7){
                 arrayByMonth = sortReferrer(arrayByMonth,resp[index])
             }
             
-            else if(resp[index].month === 8){
+            else if(dateObj.getMonth() === 8){
                 arrayByMonth = sortReferrer(arrayByMonth,resp[index])
             }
             
-            else if(resp[index].month === 9){
+            else if(dateObj.getMonth() === 9){
                 arrayByMonth = sortReferrer(arrayByMonth,resp[index])
             }
             
-            else if(resp[index].month === 10){
+            else if(dateObj.getMonth() === 10){
                 arrayByMonth = sortReferrer(arrayByMonth,resp[index])
             }
 
-            else if(resp[index].month === 11){
+            else if(dateObj.getMonth() === 11){
                 arrayByMonth = sortReferrer(arrayByMonth,resp[index])
             }
             else {
                 console.log("No month available")
             }
         };
-
+        console.log(arrayByMonth)
         data = addTotalReferrers(arrayByMonth)
         res.send(data)
     })
     .catch(err => {
         res.send(err)
-    })
-    // [month1 = [{}, {}],month2 = [],[]]
-    
+    })    
 })
 
 function addTotalReferrers(monthArray) {
 
     let returnObj = {}
-    let totalReferrer = {}
+    
+    
     for (let month = 0;  month < monthArray.length; month++) {
+        let totalReferrer = {}
         if (monthArray[month] === undefined) {
-            // console.log("Undefined")
+            console.log("Month is Undefined")
         } else {
             for (let referrerID = 0; referrerID < monthArray[month].length; referrerID++) {
-                // console.log(monthArray[month][referrerID])
-                if (monthArray[month][referrerID] === undefined) {
-                    console.log(`ReferrerID:${referrer} is undefined`)
-                }
-                else {
-                    let monthStr = `Month ${month}`
-                    // console.log(`ReferrerID:${referrerID}`, monthArray[month][referrerID].length)
-                    totalReferrer[`referrerid${referrerID}`] = monthArray[month][referrerID].length
-                    returnObj[monthStr] = totalReferrer
-                }
-            }
+                let monthStr = `Month ${month}`
+                totalReferrer[`referrerid${referrerID}`] = monthArray[month][referrerID].length
+                // totalCounter = monthArray[month][referrerID].length
+                console.log(monthStr)
+                console.log(totalReferrer)
+                returnObj[monthStr] = totalReferrer 
+            }  
         }
     }
+    // console.log(returnObj)
     return returnObj
 }
 
@@ -194,7 +186,7 @@ function sortReferrer(monthArray, queriedDataObj) {
 
     let returnArray = monthArray;
 
-    if (returnArray[queriedDataObj.month] === undefined) {
+    if (returnArray[queriedDataObj.dateOfLead.getMonth()] === undefined) {
 
         if (queriedDataObj.referrer === "LP Staff") {
             let referrerArray = []
@@ -202,7 +194,7 @@ function sortReferrer(monthArray, queriedDataObj) {
                 referrerArray[index] = []
             }
             referrerArray[0].push(queriedDataObj)
-            returnArray[queriedDataObj.month] = referrerArray
+            returnArray[queriedDataObj.dateOfLead.getMonth()] = referrerArray
         }
         else if (queriedDataObj.referrer === "SP Staff") {
             let referrerArray = []
@@ -210,7 +202,7 @@ function sortReferrer(monthArray, queriedDataObj) {
                 referrerArray[index] = []
             }
             referrerArray[1].push(queriedDataObj)
-            returnArray[queriedDataObj.month] = referrerArray
+            returnArray[queriedDataObj.dateOfLead.getMonth()] = referrerArray
         }
         else if (queriedDataObj.referrer === "Marketing Campaigns") {
             let referrerArray = []
@@ -218,7 +210,7 @@ function sortReferrer(monthArray, queriedDataObj) {
                 referrerArray[index] = []
             }
             referrerArray[2].push(queriedDataObj)
-            returnArray[queriedDataObj.month] = referrerArray
+            returnArray[queriedDataObj.dateOfLead.getMonth()] = referrerArray
         }
         else if (queriedDataObj.referrer === "BDM Staff") {
             let referrerArray = []
@@ -226,7 +218,7 @@ function sortReferrer(monthArray, queriedDataObj) {
                 referrerArray[index] = []
             }
             referrerArray[3].push(queriedDataObj)
-            returnArray[queriedDataObj.month] = referrerArray
+            returnArray[queriedDataObj.dateOfLead.getMonth()] = referrerArray
         }
         else if (queriedDataObj.referrer === "TFC") {
             let referrerArray = []
@@ -234,7 +226,7 @@ function sortReferrer(monthArray, queriedDataObj) {
                 referrerArray[index] = []
             }
             referrerArray[4].push(queriedDataObj)
-            returnArray[queriedDataObj.month] = referrerArray
+            returnArray[queriedDataObj.dateOfLead.getMonth()] = referrerArray
         }
         else {
             let referrerArray = []
@@ -242,31 +234,29 @@ function sortReferrer(monthArray, queriedDataObj) {
                 referrerArray[index] = []
             }
             referrerArray[5].push(queriedDataObj)
-            returnArray[queriedDataObj.month] = referrerArray
+            returnArray[queriedDataObj.dateOfLead.getMonth()] = referrerArray
         }
     }
     else {
         if (queriedDataObj.referrer === "LP Staff") {
-            returnArray[queriedDataObj.month][0].push(queriedDataObj)
+            returnArray[queriedDataObj.dateOfLead.getMonth()][0].push(queriedDataObj)
         }
         else if (queriedDataObj.referrer === "SP Staff") {
-            returnArray[queriedDataObj.month][1].push(queriedDataObj)
+            returnArray[queriedDataObj.dateOfLead.getMonth()][1].push(queriedDataObj)
         }
         else if (queriedDataObj.referrer === "Marketing Campaigns") {
-            returnArray[queriedDataObj.month][2].push(queriedDataObj)
+            returnArray[queriedDataObj.dateOfLead.getMonth()][2].push(queriedDataObj)
         }
         else if (queriedDataObj.referrer === "BDM Staff") {
-            returnArray[queriedDataObj.month][3].push(queriedDataObj)
+            returnArray[queriedDataObj.dateOfLead.getMonth()][3].push(queriedDataObj)
         }
         else if (queriedDataObj.referrer === "TFC") {
-            returnArray[queriedDataObj.month][4].push(queriedDataObj)
+            returnArray[queriedDataObj.dateOfLead.getMonth()][4].push(queriedDataObj)
         }
         else {
-            returnArray[queriedDataObj.month][5].push(queriedDataObj)
+            returnArray[queriedDataObj.dateOfLead.getMonth()][5].push(queriedDataObj)
         }
-    
     }
-    // console.log("Outside if/else statement", returnArray)
     return returnArray;
 }
 
