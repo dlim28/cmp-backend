@@ -90,7 +90,9 @@ router.get('/referrer-leaderboard', (req, res) => {
     .lean()
     .then(resp => {
         
-        let arrayByMonth = []
+        let arrayByMonthPrevYear = []
+        let arrayByMonthCurrentYear = []
+        let returnArr = []
         let data = {}
 
         //sets the month in the response object
@@ -98,59 +100,118 @@ router.get('/referrer-leaderboard', (req, res) => {
 
             const dateObj = resp[index].dateOfLead;
 
-            if(dateObj.getMonth() === 0){
-                arrayByMonth = sortReferrer(arrayByMonth,resp[index])
-            }
+            if (dateObj.getFullYear() === 2018) {
 
-            else if(dateObj.getMonth() === 1){
-                arrayByMonth = sortReferrer(arrayByMonth,resp[index])
-            }
-
-            else if(dateObj.getMonth() === 2){
-                arrayByMonth = sortReferrer(arrayByMonth,resp[index])
-            }
-
-            else if(dateObj.getMonth() === 3){
-                arrayByMonth = sortReferrer(arrayByMonth,resp[index])
-            }
-            
-            else if(dateObj.getMonth() === 4){
-                arrayByMonth = sortReferrer(arrayByMonth,resp[index])
-            }
-            
-            else if(dateObj.getMonth() === 5){
-                arrayByMonth = sortReferrer(arrayByMonth,resp[index])
-            }
-            
-            else if(dateObj.getMonth() === 6){
-                arrayByMonth = sortReferrer(arrayByMonth,resp[index])
-            }
-            
-            else if(dateObj.getMonth() === 7){
-                arrayByMonth = sortReferrer(arrayByMonth,resp[index])
-            }
-            
-            else if(dateObj.getMonth() === 8){
-                arrayByMonth = sortReferrer(arrayByMonth,resp[index])
-            }
-            
-            else if(dateObj.getMonth() === 9){
-                arrayByMonth = sortReferrer(arrayByMonth,resp[index])
-            }
-            
-            else if(dateObj.getMonth() === 10){
-                arrayByMonth = sortReferrer(arrayByMonth,resp[index])
-            }
-
-            else if(dateObj.getMonth() === 11){
-                arrayByMonth = sortReferrer(arrayByMonth,resp[index])
-            }
-            else {
-                console.log("No month available")
+                if(dateObj.getMonth() === 0){
+                    arrayByMonthPrevYear = sortReferrer(arrayByMonthPrevYear,resp[index])
+                }
+    
+                else if(dateObj.getMonth() === 1){
+                    arrayByMonthPrevYear = sortReferrer(arrayByMonthPrevYear,resp[index])
+                }
+    
+                else if(dateObj.getMonth() === 2){
+                    arrayByMonthPrevYear = sortReferrer(arrayByMonthPrevYear,resp[index])
+                }
+    
+                else if(dateObj.getMonth() === 3){
+                    arrayByMonthPrevYear = sortReferrer(arrayByMonthPrevYear,resp[index])
+                }
+                
+                else if(dateObj.getMonth() === 4){
+                    arrayByMonthPrevYear = sortReferrer(arrayByMonthPrevYear,resp[index])
+                }
+                
+                else if(dateObj.getMonth() === 5){
+                    arrayByMonthPrevYear = sortReferrer(arrayByMonthPrevYear,resp[index])
+                }
+                
+                else if(dateObj.getMonth() === 6){
+                    arrayByMonthPrevYear = sortReferrer(arrayByMonthPrevYear,resp[index])
+                }
+                
+                else if(dateObj.getMonth() === 7){
+                    arrayByMonthPrevYear = sortReferrer(arrayByMonthPrevYear,resp[index])
+                }
+                
+                else if(dateObj.getMonth() === 8){
+                    arrayByMonthPrevYear = sortReferrer(arrayByMonthPrevYear,resp[index])
+                }
+                
+                else if(dateObj.getMonth() === 9){
+                    arrayByMonthPrevYear = sortReferrer(arrayByMonthPrevYear,resp[index])
+                }
+                
+                else if(dateObj.getMonth() === 10){
+                    arrayByMonthPrevYear = sortReferrer(arrayByMonthPrevYear,resp[index])
+                }
+    
+                else if(dateObj.getMonth() === 11){
+                    arrayByMonthPrevYear = sortReferrer(arrayByMonthPrevYear,resp[index])
+                }
+                else {
+                    console.log("No month available")
+                }
+            } else {
+                if(dateObj.getMonth() === 0){
+                    arrayByMonthCurrentYear = sortReferrer(arrayByMonthCurrentYear,resp[index])
+                }
+    
+                else if(dateObj.getMonth() === 1){
+                    arrayByMonthCurrentYear = sortReferrer(arrayByMonthCurrentYear,resp[index])
+                }
+    
+                else if(dateObj.getMonth() === 2){
+                    arrayByMonthCurrentYear = sortReferrer(arrayByMonthCurrentYear,resp[index])
+                }
+    
+                else if(dateObj.getMonth() === 3){
+                    arrayByMonthCurrentYear = sortReferrer(arrayByMonthCurrentYear,resp[index])
+                }
+                
+                else if(dateObj.getMonth() === 4){
+                    arrayByMonthCurrentYear = sortReferrer(arrayByMonthCurrentYear,resp[index])
+                }
+                
+                else if(dateObj.getMonth() === 5){
+                    arrayByMonthCurrentYear = sortReferrer(arrayByMonthCurrentYear,resp[index])
+                }
+                
+                else if(dateObj.getMonth() === 6){
+                    arrayByMonthCurrentYear = sortReferrer(arrayByMonthCurrentYear,resp[index])
+                }
+                
+                else if(dateObj.getMonth() === 7){
+                    arrayByMonthCurrentYear = sortReferrer(arrayByMonthCurrentYear,resp[index])
+                }
+                
+                else if(dateObj.getMonth() === 8){
+                    arrayByMonthCurrentYear = sortReferrer(arrayByMonthCurrentYear,resp[index])
+                }
+                
+                else if(dateObj.getMonth() === 9){
+                    arrayByMonthCurrentYear = sortReferrer(arrayByMonthCurrentYear,resp[index])
+                }
+                
+                else if(dateObj.getMonth() === 10){
+                    arrayByMonthCurrentYear = sortReferrer(arrayByMonthCurrentYear,resp[index])
+                }
+    
+                else if(dateObj.getMonth() === 11){
+                    arrayByMonthCurrentYear = sortReferrer(arrayByMonthCurrentYear,resp[index])
+                }
+                else {
+                    console.log("No month available")
+                }
             }
         };
-        console.log(arrayByMonth)
-        data = addTotalReferrers(arrayByMonth)
+
+        returnArr.push(arrayByMonthPrevYear)
+        returnArr.push(arrayByMonthCurrentYear)
+        data.previousYear = addTotalReferrers(arrayByMonthPrevYear)
+        data.currentYear = addTotalReferrers(arrayByMonthCurrentYear)
+        // data = addTotalReferrers(arrayByMonth)
+        console.log(data)
         res.send(data)
     })
     .catch(err => {
