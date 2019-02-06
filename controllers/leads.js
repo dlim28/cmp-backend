@@ -219,24 +219,40 @@ function addTotalReferrers(monthArray) {
 
     let returnObj = {}
 
+    // mortgage.find({
+    //     $or:
+    //     [
+    //         {status:"lead lost"},
+    //         {status:"lodgement declined"},
+    //         {status:"approval withdrawn"}
+    //     ]
+    // })
+    // .lean()
+    // .then(data => {
+        
+    // })
     for (let month = monthArray.length;  month >= 0; month--) {
         for (let index = 0; index < monthArray.length; index++) {
             let totalReferrer = {}
             if (monthArray[month] === undefined) {
                 //Do nothing
             } else {
-                // let totalCounter = 0
+                let totalCounter = 0
                 for (let referrerID = 0; referrerID < monthArray[month].length; referrerID++) {
-                    let monthStr = `Month ${month}`
+                    let monthStr = `Month${month}`
                     totalReferrer[`referrerid${referrerID}`] = monthArray[month][referrerID].length
-                    // totalCounter += monthArray[month][referrerID].length
-                    returnObj[monthStr] = totalReferrer 
-                }  
-                // console.log(`Total for Month ${month} is ${totalCounter}`)
-                // returnObj.total = totalCounter
+                    totalCounter += monthArray[month][referrerID].length
+                    returnObj[monthStr] = totalReferrer
+
+                    if (referrerID === 5) {
+                        returnObj[monthStr].totalLeads = totalCounter
+                        returnObj[monthStr]['%'] = (totalCounter / (5)) * 100.00
+                    }
+                }                 
             }
         }
     }
+    
     return returnObj
 }
 
