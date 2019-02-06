@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/all',(req, res) => {
-    mortgage.find({"status":"lead"})
+    mortgage.find({status:"lead"})
     .then(resp => {
         res.send(resp)
     })
@@ -16,6 +16,7 @@ router.get('/all',(req, res) => {
 //Get one mortgage based on parameter
 router.get('/select/:id', (req, res) => {
     const { id } = req.params;
+    console.log(id)
     mortgage.findOne({ id })
     .then((resp) => {
         res.send(resp);
