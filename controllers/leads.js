@@ -92,15 +92,15 @@ router.get('/referrer-leaderboard', (req, res) => {
         
         let arrayByMonthPrevYear = []
         let arrayByMonthCurrentYear = []
-        let returnArr = []
         let data = {}
 
         //sets the month in the response object
         for (let index = 0; index < resp.length; index++) {
 
             const dateObj = resp[index].dateOfLead;
+            const currentDate = new Date;
 
-            if (dateObj.getFullYear() === 2018) {
+            if (dateObj.getFullYear() === currentDate.getFullYear() - 1) {
 
                 if(dateObj.getMonth() === 0){
                     arrayByMonthPrevYear = sortReferrer(arrayByMonthPrevYear,resp[index])
@@ -208,7 +208,6 @@ router.get('/referrer-leaderboard', (req, res) => {
 
         data.currentYear = addTotalReferrers(arrayByMonthCurrentYear)
         data.previousYear = addTotalReferrers(arrayByMonthPrevYear)
-        // data = addTotalReferrers(arrayByMonth)
         res.send(data)
     })
     .catch(err => {
