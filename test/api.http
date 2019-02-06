@@ -15,7 +15,7 @@ Content-Type: application/json
 		"dateOfLead": "2018-11-03",
 		"lender": "Virgin Money",
 		"employee": "Johann"
-	}
+}
 ###
 GET http://localhost:5000/leads/select/1
 ###

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const mortgageSchema = new mongoose.Schema({
-    id: String,
+    id: Number,
     customerName: String,
     status: String,
     statusDate: Date,

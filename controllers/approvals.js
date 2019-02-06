@@ -9,12 +9,12 @@ router.get('/', (req, res) => {
     let until = new Date(`${currentYear}-06-30`)
 
     mortgage.find(
-    // search date of lodgements between 1st January last year and 31st December this year
+    // search date of approvals between 1st July last year and 30th June this year
         {
             $and:
             [
                 {status:"approval"},
-                {dateOfLead: {"$gte": from, "$lte": until}}
+                {dateOfLead: {$gte: from, $lte: until}}
             ]
         }
     )

@@ -4,7 +4,7 @@ const mortgage = require('../models/mortgage');
 
 router.get('/', (req, res) => {
     mortgage.find({})
-    .sort({"statusDate": 0})
+    .sort({dateOfLead: 1})
     .then(resp => {
         res.send(resp)
     })

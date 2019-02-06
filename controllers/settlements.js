@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
     const currentYear = currentDate.getFullYear()
     let from = new Date(`${currentYear - 1}-07-01`)
     let until = new Date(`${currentYear}-06-30`)
-
+    // search date of settlements between 1st July last year and 30th June this year
     mortgage.find(
         {
             $and:
