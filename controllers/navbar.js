@@ -52,6 +52,9 @@ router.get('/', (req,res) => {
     Promise.all(returnArr).then(data => {
         res.send(data)
     })
+    .catch(err => {
+        return err
+    })
 })
 
 router.get('/:status', (req, res) => {
@@ -67,6 +70,9 @@ router.get('/:status', (req, res) => {
             returnObj.totalRecordsForMonth = Object.keys(resultObject).length
             returnObj.totalAmountForMonth = totalAmount
         })
+        .catch(err => {
+            return err
+        })
 
         getTotalMortgagesYTD(status)
         .then(resultObjectYTD => {
@@ -78,7 +84,16 @@ router.get('/:status', (req, res) => {
                 console.log(returnObj)
                 res.send(returnObj)
             })
+            .catch(err => {
+                return err
+            })
         })
+        .catch(err => {
+            return err
+        })
+    })
+    .catch(err => {
+        return err
     })
 })
 
@@ -95,6 +110,9 @@ function getData(status)
                     returnObj.totalRecordsForMonth = Object.keys(resultObject).length
                     returnObj.totalAmountForMonth = totalAmount
                 })
+                .catch(err => {
+                    return err
+                })
 
                 getTotalMortgagesYTD(status)
                 .then(resultObjectYTD => {
@@ -105,7 +123,16 @@ function getData(status)
                         returnObj.totalAmountYTD = totalAmountYTD
                         resolve(returnObj)
                     })
+                    .catch(err => {
+                        return err
+                    })
                 })
+                .catch(err => {
+                    return err
+                })
+            })
+            .catch(err => {
+                return err
             })
         }
     )

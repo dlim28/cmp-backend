@@ -23,6 +23,9 @@ router.get('/', (req, res) => {
     .then((resp) => {
         res.send(resp)
     })
+    .catch(err => {
+        return err
+    })
 })
 
 router.get('/:id', (req,res) => {
@@ -30,6 +33,9 @@ router.get('/:id', (req,res) => {
     mortgage.findOne({ id })
     .then((resp) => {
         res.send(resp);
+    })
+    .catch(err => {
+        return err
     })
 })
 

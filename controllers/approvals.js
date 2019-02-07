@@ -46,6 +46,9 @@ router.get('/:id', (req,res) => {
     .then((resp) => {
         res.send(resp);
     })
+    .catch(err => {
+        return err
+    })
 })
 
 module.exports = router;

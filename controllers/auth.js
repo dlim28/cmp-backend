@@ -27,7 +27,10 @@ router.post('/login', (req, res) => {
             }
             const token = generateToken(doc);
             return res.send({ token })
-        });
+        })
+        .catch(err => {
+            return err
+        })
     } else {
         return res.status(403).send('Incorrect login or password, please try again')
     }

@@ -12,6 +12,9 @@ router.get('/all',(req, res) => {
     .then(resp => {
         res.send(resp)
     })
+    .catch(err => {
+        return err
+    })
 })
 //Get one mortgage based on parameter
 router.get('/select/:id', (req, res) => {
@@ -20,6 +23,9 @@ router.get('/select/:id', (req, res) => {
     mortgage.findOne({ id })
     .then((resp) => {
         res.send(resp);
+    })
+    .catch(err => {
+        return err
     })
 })
 
@@ -42,6 +48,9 @@ router.get('/overview', (req, res) => {
     )
     .then((resp) => {
         res.send(resp);
+    })
+    .catch(err => {
+        return err
     })
 })
 
@@ -365,7 +374,10 @@ router.post('/new-lead', (req, res) => {
         .catch(err => {
             res.status(400).send("unable to save to database");
         })
-    })    
+    }) 
+    .catch(err => {
+        return err
+    })   
 })
 
 router.patch('/:id/edit', (req, res) => {
@@ -387,6 +399,9 @@ router.patch('/:id/edit', (req, res) => {
                 .then(resp => {
                     res.send(resp)
                     })
+                    .catch(err => {
+                        return err
+                    })
                 })
                 .catch(err => {
                     return err;
@@ -400,6 +415,9 @@ router.patch('/:id/edit', (req, res) => {
                     doc.save()
                 .then(resp => {
                     res.send(resp)
+                    })
+                    .catch(err => {
+                        return err
                     })
                 })
                 .catch(err => {
