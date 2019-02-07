@@ -375,11 +375,10 @@ router.patch('/:id/edit', (req, res) => {
     for (const key in changes) {
         if (changes.hasOwnProperty(key)) {
             if (key === "status") {
-                const statusDate = new Date();
-                const currentDay = statusDate.getDate();
-                const currentMonth = statusDate.getMonth() + 1;
-                const currentYear = statusDate.getFullYear();
-                changes.statusDate = `${currentDay}/0${currentMonth}/${currentYear}`
+                let statusDate = new Date();
+                statusDate.setHours(0,0,0,0)
+                statusDate.setUTCHours(0)
+                changes.statusDate = statusDate
 
                 mortgage.findOneAndUpdate({id}, changes)
                 .then(doc => {
