@@ -6,7 +6,7 @@ require('dotenv').config();
 
 //Start Express
 const app = new express();
-const port = 5000; //This port can be configurable
+const port = process.env.PORT_NO;
 
 //Connect MongoDB
 // mongoose.connect('mongodb://localhost:27017/CaptureMortgagePlus');
